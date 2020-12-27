@@ -47,7 +47,7 @@ var upload = multer({ storage: storage });
 
 
 app.set('view engine', 'ejs'); // We need to set EJS as our templating engine
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views')); 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: false})); 
 app.use(express.json());
@@ -72,8 +72,10 @@ app.post('/api/photo', upload.single('file'), function(req,res){
     let newImage = new Image(); // Here, we create an instance of our Item model
     newImage.name = req.body.name
     newImage.desc = req.body.desc
-    newImage.img.data = fs.readFileSync(path.join(__dirname + '/uploads/' + image.filename))
-    console.log("HERE!! : ", path.join(__dirname + '/uploads/' + image.filename))
+    // process.cwd() -> Project directory
+    // __dirname -> Current directory
+    newImage.img.data = fs.readFileSync(path.join(__dirname + '/uploads/' + image.filename)) 
+    console.log("HERE!! : ", path.join(__dirname + '/uploads/' + image.filename))           
     newImage.img.contentType = 'image/jpg';
     newImage.save();
     res.redirect('/')
